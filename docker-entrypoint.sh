@@ -4,7 +4,7 @@ packages=()
 [ "${NMAP}" = "enable" ] && {
     packages=(nmap ${packages[@]})
 }
-[ "${APACHE2_UTILS}" = "enable" ] && {
+[ "${APACHE_BENCH}" = "enable" -o "${HTPASSWD}" = "enable" ] && {
     packages=(apache2-utils ${packages[@]})
 }
 [ "${MYSQL_CLIENT}" = "enable" ] && {

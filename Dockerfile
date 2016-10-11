@@ -1,20 +1,17 @@
 FROM alpine:3.4
 
-ENV GID 1000
-ENV UID 1000
-
-ENV GROUP_NAME wheel
-ENV USER_NAME tools
+ENV TERM=xterm \
+    GID=1000 \
+    UID=1000 \
+    GROUP_NAME=wheel \
+    USER_NAME=tools
 
 RUN apk add --no-cache \
         bash \
         sudo \
         tar \
         git \
-        htop \
-        nmap \
-        mysql-client \
-        sqlite
+        htop
 
 RUN set -x \
     && adduser -u ${UID} -D -s /bin/bash -G ${GROUP_NAME} ${USER_NAME} \
@@ -55,7 +52,9 @@ RUN apk add --update --no-cache --virtual=build-dependencies \
     && rm -rf /var/cache/apk/* \
     && cd / && rm -rf /src
 
+COPY docker-entrypoint.sh /entrypoint.sh
 WORKDIR /home/${USER_NAME}
 USER tools
 
-CMD tail -f /dev/null
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["tail", "-f", "/dev/null"]

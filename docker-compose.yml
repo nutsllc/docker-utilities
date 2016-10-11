@@ -1,3 +1,8 @@
 tools:
-#    image: nutsllc/docker-utilities
-    image: tools
+    image: nutsllc/docker-utilities
+    environment:
+        - NMAP=disable
+        - APACHE_BENCH=enable
+        - HTPASSWD=disable
+        - MYSQL_CLIENT=disable
+        - SQLITE=disable

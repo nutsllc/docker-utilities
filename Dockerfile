@@ -12,7 +12,9 @@ RUN apk add --no-cache \
         tar \
         git \
         htop \
-        nmap
+        nmap \
+        mysql-client \
+        sqlite
 
 RUN set -x \
     && adduser -u ${UID} -D -s /bin/bash -G ${GROUP_NAME} ${USER_NAME} \
@@ -20,15 +22,9 @@ RUN set -x \
     && echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers.d/default \
     && echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/default
 
-#RUN set -x \
-#    && addgroup -g ${GID} -S ${GROUP_NAME} \
-#    && adduser -u ${UID} -D -s /bin/bash -G ${GROUP_NAME} ${USER_NAME} \
-#    && echo "%wheel ALL=(ALL) ALL" >> sudoers \
-#    && echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> sudoers
-
 ENV JPEGOPTIM_VERSION 1.4.4
 ENV OPTIPNG_VERSION 0.7.6
-COPY optipng-${OPTIPNG_VERSION}.tar.gz /src/png.tar.gz
+COPY src/optipng-${OPTIPNG_VERSION}.tar.gz /src/png.tar.gz
 
 # vim & jpegoptim & optipng
 RUN apk add --update --no-cache --virtual=build-dependencies \
@@ -61,3 +57,5 @@ RUN apk add --update --no-cache --virtual=build-dependencies \
 
 WORKDIR /home/${USER_NAME}
 USER tools
+
+CMD tail -f /dev/null

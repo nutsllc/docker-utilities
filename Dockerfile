@@ -54,7 +54,7 @@ RUN apk add --update --no-cache --virtual=build-dependencies \
 
 COPY docker-entrypoint.sh /entrypoint.sh
 WORKDIR /home/${USER_NAME}
-USER tools
+#USER tools
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["tail", "-f", "/dev/null"]

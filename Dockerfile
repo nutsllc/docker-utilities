@@ -1,6 +1,6 @@
 FROM alpine:3.4
 
-ENV TERM=xterm
+ENV TERM=xterm \
     GID=1000 \
     UID=1000 \
     GROUP_NAME=wheel \
@@ -54,7 +54,7 @@ RUN apk add --update --no-cache --virtual=build-dependencies \
 
 COPY docker-entrypoint.sh /entrypoint.sh
 WORKDIR /home/${USER_NAME}
-#USER tools
+USER tools
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["tail", "-f", "/dev/null"]

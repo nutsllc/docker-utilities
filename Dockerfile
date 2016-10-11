@@ -3,12 +3,8 @@ FROM alpine:3.4
 ENV GID 1000
 ENV UID 1000
 
-ENV GROUP_NAME tools
+ENV GROUP_NAME wheel
 ENV USER_NAME tools
-
-RUN set -x \
-    && addgroup -g ${GID} -S ${GROUP_NAME} \
-    && adduser -u ${UID} -D -s /bin/bash -G ${GROUP_NAME} ${USER_NAME}
 
 RUN apk add --no-cache \
         bash \
@@ -17,6 +13,18 @@ RUN apk add --no-cache \
         git \
         htop \
         nmap
+
+RUN set -x \
+    && adduser -u ${UID} -D -s /bin/bash -G ${GROUP_NAME} ${USER_NAME} \
+    && echo "Defaults visiblepw" >> /etc/sudoers.d/default \
+    && echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers.d/default \
+    && echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/default
+
+#RUN set -x \
+#    && addgroup -g ${GID} -S ${GROUP_NAME} \
+#    && adduser -u ${UID} -D -s /bin/bash -G ${GROUP_NAME} ${USER_NAME} \
+#    && echo "%wheel ALL=(ALL) ALL" >> sudoers \
+#    && echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> sudoers
 
 ENV JPEGOPTIM_VERSION 1.4.4
 ENV OPTIPNG_VERSION 0.7.6

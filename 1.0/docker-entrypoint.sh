@@ -1,6 +1,9 @@
 #!/bin/bash
 
 packages=()
+[ "${GIT}" = "enable" ] && {
+    packages=(git ${packages[@]})
+}
 [ "${NMAP}" = "enable" ] && {
     packages=(nmap ${packages[@]})
 }
@@ -13,6 +16,13 @@ packages=()
 [ "${SQLITE}" = "enable" ] && {
     packages=(sqlite ${packages[@]})
 }
+[ "${OPENSSH}" = "enable" ] && {
+    packages=(openssh ${packages[@]})
+}
+[ "${JQ}" = "enable" ] && {
+    packages=(python jq ${packages[@]})
+}
+
 
 [ ${#packages[@]} -ne 0 ] && {
     sudo apk update
